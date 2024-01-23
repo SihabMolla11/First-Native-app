@@ -1,20 +1,28 @@
-import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import LoginModal from './LoginModal';
 
 const Login = () => {
+
+    const [sowModal, setShowModal] = useState(false)
+
     return (
-        <View >
-            <Image source={require('./../../assets/login.png')} style={loginPageStyle.loginImage} />
-            <View style={loginPageStyle.secondContainer}>
-                <Text style={loginPageStyle.firstText}>Les't <Text style={{ fontWeight: 700 }}>Find Professional Clanging and repair</Text> Service</Text>
-                <Text style={loginPageStyle.secondText}>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto ut cupiditate cumque iusto!
-                </Text>
-                <TouchableOpacity style={loginPageStyle.getStartButton} onPress={() => console.log("button Has clicked")}>
-                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 500 }}>Les't Get Start</Text>
-                </TouchableOpacity>
+
+        <ScrollView >
+            <View >
+                <Image source={require('./../../assets/login.png')} style={loginPageStyle.loginImage} />
+                <View style={loginPageStyle.secondContainer}>
+                    <Text style={loginPageStyle.firstText}>Les't <Text style={{ fontWeight: 700 }}>Find Professional Clanging and repair</Text> Service</Text>
+                    <Text style={loginPageStyle.secondText}>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto ut cupiditate cumque iusto!
+                    </Text>
+                    <TouchableOpacity style={loginPageStyle.getStartButton} onPress={() => setShowModal(true)}>
+                        <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 500 }}>Les't Get Start</Text>
+                    </TouchableOpacity>
+                </View>
+                <LoginModal setShowModal={setShowModal} sowModal={sowModal} />
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
@@ -23,7 +31,7 @@ export default Login;
 const loginPageStyle = StyleSheet.create({
 
     loginImage: {
-        height: 500,
+        height: 380,
         width: 253,
         marginTop: 70,
         alignSelf: 'center',
