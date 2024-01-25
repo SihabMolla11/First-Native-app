@@ -1,15 +1,28 @@
 import { AntDesign } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { AuthContext } from '../../authContext/AuthProvider';
 
 const LoginModal = ({ setShowModal, sowModal }) => {
-
-    const [username, setUserName] = useState('')
+    const [name, setUserName] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setSetPassword] = useState('')
+    const [form, setForm] = useState('login')
+
+    const { useLogin, useRegister } = useContext(AuthContext)
+
 
     const handelLogin = () => {
-        const loginData = { username, password }
-        console.log(loginData);
+        useLogin({ email, password })
+    }
+
+    const handelRegister = () => {
+
+        const registerData = {
+            name, email, password
+        }
+
+        useRegister(registerData)
     }
 
     return (
@@ -21,25 +34,80 @@ const LoginModal = ({ setShowModal, sowModal }) => {
                     </TouchableOpacity  >
                     </View>
 
-                    <View style={modalStyle.form}>
-                        <TextInput
-                            style={modalStyle.input}
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUserName(e.target.value)}
-                        />
-                        <TextInput
-                            style={modalStyle.input}
-                            placeholder="Password"
-                            value={password}
-                            secureTextEntry
-                            onChange={(e) => setSetPassword(e.target.value)}
-                        />
-                        <TouchableOpacity style={modalStyle.loginButton} onPress={handelLogin}><Text style={{
-                            fontSize: 16,
-                            fontWeight: 700
-                        }}>Login</Text></TouchableOpacity>
+
+                    <View style={modalStyle.LRContainer}>
+                        <TouchableOpacity onPress={() => setForm('login')}>
+                            <Text style={{
+                                fontSize: 20,
+                                color: '#ffffff',
+                                fontWeight: 700
+                            }}>Login</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setForm('register')}>
+                            <Text
+                                style={{
+                                    fontSize: 20,
+                                    color: '#ffffff',
+                                    fontWeight: 700
+                                }}
+                            >Registration</Text>
+                        </TouchableOpacity>
                     </View>
+
+                    {
+                        form === 'login' && <View style={modalStyle.form}>
+
+                            <TextInput
+                                style={modalStyle.input}
+                                placeholder="Email"
+                                value={email}
+                                onChangeText={(Text) => setEmail(Text)}
+                            />
+                            <TextInput
+                                style={modalStyle.input}
+                                placeholder="Password"
+                                value={password}
+                                secureTextEntry
+                                onChangeText={(Text) => setSetPassword(Text)}
+                            />
+                            <TouchableOpacity style={modalStyle.loginButton} onPress={handelLogin}><Text style={{
+                                fontSize: 16,
+                                fontWeight: 700
+                            }}>Login</Text></TouchableOpacity>
+
+                        </View>
+                    }
+
+                    {
+                        form === 'register' && <View style={modalStyle.form}>
+
+                            <TextInput
+                                style={modalStyle.input}
+                                placeholder="name"
+                                value={name}
+                                onChangeText={(Text) => setUserName(Text)}
+                            />
+                            <TextInput
+                                style={modalStyle.input}
+                                placeholder="email"
+                                value={email}
+                                onChangeText={(Text) => setEmail(Text)}
+                            />
+                            <TextInput
+                                style={modalStyle.input}
+                                placeholder="Password"
+                                value={password}
+                                secureTextEntry
+                                onChangeText={(Text) => setSetPassword(Text)}
+                            />
+                            <TouchableOpacity style={modalStyle.loginButton} onPress={handelRegister}><Text style={{
+                                fontSize: 16,
+                                fontWeight: 700
+                            }}>Sign Up</Text></TouchableOpacity>
+
+                        </View>
+                    }
+
                 </View>
             </Modal>
         </View>
@@ -79,6 +147,7 @@ const modalStyle = StyleSheet.create({
         padding: 5,
         width: 250,
         borderRadius: 10,
+        color: '#ffffff'
         // marginBottom: 20
     },
     loginButton: {
@@ -97,8 +166,17 @@ const modalStyle = StyleSheet.create({
         justifyContent: 'center',
         gap: 20,
         height: '100%'
-    }
+    },
 
+    LRContainer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 30,
+        position: 'absolute',
+        top: 100,
+    },
 
 
 })
